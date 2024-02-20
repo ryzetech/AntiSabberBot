@@ -75,7 +75,7 @@ bot.on(message("sticker"), async (ctx) => {
 
     await prisma.listener.delete({ where: { id: listener.id } });
   } else {
-    const stickerResult = prisma.sticker.findUnique({
+    const stickerResult = await prisma.sticker.findUnique({
       where: {
         id: stickerId,
         allowed: false
