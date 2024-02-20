@@ -10,3 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Sticker {
+  id        String   @id
+  used      Int      @default(0)
+  allowed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id          Int       @id
+  infractions Int       @default(0)
+  immune      Boolean   @default(false)
+  admin       Boolean   @default(false)
+  updatedAt   DateTime  @updatedAt
+  listener    Listener?
+  listenerId  String?   @unique
+}
+
+model Listener {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  action    Action
+  userId    Int      @unique
+}
+
+enum Action {
+  ALLOW
+  DISALLOW
+}
