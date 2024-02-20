@@ -1,7 +1,12 @@
 {
   "dependencies": {
     "@prisma/client": "^5.10.1",
+    "dotenv": "^16.4.5",
     "telegraf": "^4.15.3"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "start": "node ./app.js --trace-warnings",
+    "dev": "nodemon ./app.js --trace-warnings"
+  }
 }
