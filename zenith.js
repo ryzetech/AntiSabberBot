@@ -43,10 +43,11 @@ async function evaluate(ctx) {
  * @returns {Boolean}
  */
 async function isAllowed(evaluation) {
-  for (const tag in evaluation) {
-    if (filters.disallow.includes(tag)) { return false };
+  let val = true;
+  for (const obj of evaluation) {
+    if (filters.disallow.includes(obj.tag)) { val = false };
   }
-  return true;
+  return val;
 }
 
 export default {
