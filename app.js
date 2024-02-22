@@ -1,6 +1,6 @@
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters"
-import { Prisma, PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import dotenv from "dotenv"
 import zenith from "./zenith.js"
 
@@ -9,17 +9,6 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const bot = new Telegraf(process.env.TG_TOKEN);
-
-/*
-bot.use(async (ctx) => {
-  let id = ctx.message?.from?.id;
-  if (id) {
-    let search = await prisma.user.findUnique({ where: { id: id } });
-    if (!search) search = await prisma.user.create({ data: { id: id } });
-    ctx.dbresult = search;
-  }
-})
-*/
 
 async function getOrCreate(userid) {
   let search = await prisma.user.findUnique({ where: { id: userid } });
@@ -34,9 +23,7 @@ bot.command("neinnein", async (ctx) => {
 
   await prisma.listener.create({
     data: {
-      user: {
-        connect: { id: user.id }
-      },
+      user: { connect: { id: user.id } },
       action: "DISALLOW"
     }
   });
@@ -48,9 +35,7 @@ bot.command("jaja", async (ctx) => {
 
   await prisma.listener.create({
     data: {
-      user: {
-        connect: { id: user.id }
-      },
+      user: { connect: { id: user.id } },
       action: "ALLOW"
     }
   });
@@ -78,18 +63,14 @@ bot.on(message("sticker"), async (ctx) => {
     await prisma.listener.delete({ where: { id: listener.id } });
   } else {
     // frage den sticker ab
-    let stickerResult = await prisma.sticker.findUnique({
-      where: {
-        id: stickerId,
-      }
-    });
-  
+    let stickerResult = await prisma.sticker.findUnique({ where: { id: stickerId } });
+
     // sollte der sticker nicht vermerkt sein, evaluiere ihn zunächst
     if (!stickerResult) {
       // abuse zenith
       const stickerEval = await zenith.evaluate(ctx);
-      const stickerIsAllowed = await ( stickerEval[0].error ? true : (await zenith.isAllowed(stickerEval)) );
-  
+      const stickerIsAllowed = await (stickerEval[0].error ? true : (await zenith.isAllowed(stickerEval)));
+
       stickerResult = await prisma.sticker.create({
         data: {
           id: stickerId,
@@ -105,7 +86,7 @@ bot.on(message("sticker"), async (ctx) => {
         data: { used: { increment: 1 } }
       })
     }
-    
+
     if (!stickerResult || stickerResult.allowed) return;
 
     // update den user
@@ -124,8 +105,8 @@ bot.on(message("sticker"), async (ctx) => {
   }
 });
 
-bot.launch()
+bot.launch();
 
 // Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));
