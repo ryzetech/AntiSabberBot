@@ -4,19 +4,16 @@ Dieser Bot weist andere User (besonders in Gruppen) darauf hin, dass bitte nicht
 # DOKUMENTATION
 mach ich irgendwann aber nicht heute
 
-# FAQ?!?!?!?!
-### Geht es dir noch gut?
-Nein.
-
+# WHAT THE FAQ
 ### Wie lange hast du dafür gebraucht?
-Für den minimalen Funktionsumfang eine Stunde, mal sehen was mit dem Rest ist.
+Für den minimalen Funktionsumfang eine Stunde, für Perms und das Sabberboard länger als ich zugeben will.
 
 ### Wie werden die Sticker erkannt?
 Jeder Sticker hat ne eindeutige ID. Die greife ich mir und speichere sie in einer Datenbank. Ab da wird nur noch geschaut, ob ein gesendeter Sticker in der Datenbank vermerkt wurde.
-Ich plane aber eine KI auf meinem Server einzusetzen um zu erkennen, ob ein Charakter auf einem Sticker sabbert (siehe [`Zenith's komischer Tagger shit`](https://github.com/ZenithO-o/furry-image-model)).
+Ich zapfe [Zenith's Furry Artwork Tagger](https://pawgge.rs/) an um bestimmte Tags zu erkennen und Sticker zu autobannen.
 
 ### Kann ich Sticker zur Datenbank hinzufügen?
-Ich arbeite noch dran, frag mich nachher.
+Das können nur Admins des Bots.
 
 ### Bekomme ich Immunität?
 Nö.
