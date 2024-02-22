@@ -1,6 +1,8 @@
-import { Telegraf } from "telegraf";
+import { Telegraf, Input } from "telegraf";
 import { message } from "telegraf/filters"
 import { PrismaClient } from "@prisma/client"
+import { markdownTable } from "markdown-table";
+import text2png from "text2png";
 import dotenv from "dotenv"
 import zenith from "./zenith.js"
 
@@ -18,8 +20,10 @@ async function getOrCreate(userid) {
 }
 
 bot.command("neinnein", async (ctx) => {
-  await ctx.reply("Oke, schick mir den Sticker den ich verbieten soll!");
   const user = await getOrCreate(ctx.message.from.id);
+  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleydev)!");
+
+  await ctx.reply("Oke, schick mir den Sticker den ich verbieten soll!");
 
   await prisma.listener.create({
     data: {
@@ -30,8 +34,10 @@ bot.command("neinnein", async (ctx) => {
 });
 
 bot.command("jaja", async (ctx) => {
-  await ctx.reply("Oke, schick mir den Sticker den ich freigeben soll!");
   const user = await getOrCreate(ctx.message.from.id);
+  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleydev)!");
+
+  await ctx.reply("Oke, schick mir den Sticker den ich freigeben soll!");
 
   await prisma.listener.create({
     data: {
@@ -39,6 +45,33 @@ bot.command("jaja", async (ctx) => {
       action: "ALLOW"
     }
   });
+});
+
+bot.command("sabberboard", async (ctx) => {
+  const top = await prisma.user.findMany({
+    orderBy: { infractions: "desc" },
+    take: 10
+  });
+
+  for (const t of top) {
+    t.username = (await ctx.getChatMember(t.id)).user.username;
+  }
+
+  const table = await markdownTable(
+    [
+      ["Rank", "Name", "Sabber"],
+      ...top.map((user, index) => [index + 1, user.username, user.infractions]),
+    ],
+    { align: ["c"] }
+  )
+
+  let img = await text2png(table, {
+    backgroundColor: "black",
+    color: "white",
+    padding: 20
+  });
+
+  await ctx.replyWithPhoto(Input.fromBuffer(img));
 });
 
 bot.on(message("sticker"), async (ctx) => {
