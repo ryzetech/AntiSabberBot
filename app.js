@@ -21,7 +21,7 @@ async function getOrCreate(userid) {
 
 bot.command("neinnein", async (ctx) => {
   const user = await getOrCreate(ctx.message.from.id);
-  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleydev)!");
+  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleyfox)!");
 
   await ctx.reply("Oke, schick mir den Sticker den ich verbieten soll!");
 
@@ -35,7 +35,7 @@ bot.command("neinnein", async (ctx) => {
 
 bot.command("jaja", async (ctx) => {
   const user = await getOrCreate(ctx.message.from.id);
-  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleydev)!");
+  if (!user.admin) return ctx.reply("Das dürfen nur Admins (z.B. @finnleyfox)!");
 
   await ctx.reply("Oke, schick mir den Sticker den ich freigeben soll!");
 
