@@ -3,8 +3,10 @@
     "@prisma/client": "^5.10.1",
     "dotenv": "^16.4.5",
     "form-data": "^4.0.0",
+    "markdown-table": "^3.0.3",
     "node-fetch": "2",
-    "telegraf": "^4.15.3"
+    "telegraf": "^4.15.3",
+    "text2png": "^2.3.0"
   },
   "type": "module",
   "scripts": {
