@@ -2,6 +2,7 @@ import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters"
 import { Prisma, PrismaClient } from "@prisma/client"
 import dotenv from "dotenv"
+import zenith from "./zenith.js"
 
 dotenv.config();
 
@@ -61,6 +62,7 @@ bot.on(message("sticker"), async (ctx) => {
 
   const listener = await prisma.listener.findUnique({ where: { userId: userId } });
 
+  // checke ob listener auf eine eingabe warten
   if (listener) {
     const result = await prisma.sticker.upsert({
       where: { id: stickerId },
@@ -75,15 +77,38 @@ bot.on(message("sticker"), async (ctx) => {
 
     await prisma.listener.delete({ where: { id: listener.id } });
   } else {
-    const stickerResult = await prisma.sticker.findUnique({
+    // frage den sticker ab
+    let stickerResult = await prisma.sticker.findUnique({
       where: {
         id: stickerId,
-        allowed: false
       }
     });
+  
+    // sollte der sticker nicht vermerkt sein, evaluiere ihn zunächst
+    if (!stickerResult) {
+      // abuse zenith
+      const stickerEval = await zenith.evaluate(ctx);
+      const stickerIsAllowed = await ( stickerEval[0].error ? true : (await zenith.isAllowed(stickerEval)) );
+  
+      stickerResult = await prisma.sticker.create({
+        data: {
+          id: stickerId,
+          used: 1,
+          allowed: stickerIsAllowed,
+          evaluation: stickerEval
+        }
+      });
+    } else {
+      // zähle die nutzungen
+      await prisma.sticker.update({
+        where: { id: stickerId },
+        data: { used: { increment: 1 } }
+      })
+    }
+    
+    if (!stickerResult || stickerResult.allowed) return;
 
-    if (!stickerResult) return;
-
+    // update den user
     const update = await prisma.user.upsert({
       where: { id: userId, immune: false },
       update: {
