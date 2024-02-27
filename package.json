@@ -12,5 +12,8 @@
   "scripts": {
     "start": "node ./app.js --trace-warnings",
     "dev": "nodemon ./app.js --trace-warnings"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
