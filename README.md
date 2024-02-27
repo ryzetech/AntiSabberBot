@@ -1,16 +1,10 @@
-<div style="text-align: center;">
-
-# ANTISABBERBOT
+# ANTISABBERBOT  
 <img src="https://zip.finnley.dev/r/pw6Q3w.jpg" alt="logo" width="250px">
 
-## SSIFAAS (spraying salivating idiotic furries as a service)
-
+## SSIFAAS (spraying salivating idiotic furries as a service)  
 Dieser Bot weist andere User (besonders in Gruppen) darauf hin, dass bitte nicht gesabbert werden soll. Dies geschieht durch hochentwickelte Algorithmen (ich frage ab ob der Sticker blacklisted ist).
 
-</div>
-
 # WHAT THE FAQ
-
 ### Wie lange hast du dafür gebraucht?
 Für den minimalen Funktionsumfang eine Stunde, für Perms und das Sabberboard länger als ich zugeben will.
 
@@ -26,7 +20,7 @@ Nö.
 
 ### Node.js ist aber kacke
 Ja ich weiß. Nun [ficket euch](https://www.youtube.com/watch?v=BDYVanNI17E) hinfort.  
-**Realtalk:** Ich weiß dass ich mich durch die Wahl dieser Sprache unbeliebt mache, aber ich bin zu faul für Python's Syntax und zu eingerostet für Java's Boilerplate. Also nerv mich deswegen nicht, 'kay?
+**Realtalk:** Ich weiß dass ich mich durch die Wahl dieser Sprache unbeliebt mache, aber ich bin zu faul für Pythons Syntax und zu eingerostet für Javas Boilerplate. Also nerv mich deswegen nicht, 'kay?
 
 # DEV
 * Nutze yarn wie jeder normale Mensch
